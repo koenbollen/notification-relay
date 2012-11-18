@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Notification Relay</string>
+    <string name="title_activity_main">Notification Relay</string>
+    <string name="accessibility_description">Relay Notifications</string>
+    
+    <string name="menu_scan_url">Scan Server Url</string>
+    <string name="menu_scan_deviceid">Scan Device ID</string>
+
+</resources>

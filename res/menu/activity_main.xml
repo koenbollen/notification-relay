@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_scan_deviceid"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/menu_scan_deviceid"
+        android:icon="@android:drawable/ic_menu_camera" />
+    <item
+        android:id="@+id/menu_scan_url"
+        android:orderInCategory="101"
+        android:showAsAction="never"
+        android:title="@string/menu_scan_url"
+        android:icon="@android:drawable/ic_menu_camera" />
+
+</menu>
