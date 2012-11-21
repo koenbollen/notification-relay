@@ -4,4 +4,12 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity" >
 
+    <ListView
+        android:id="@+id/packages"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
+    </ListView>
+
 </RelativeLayout>

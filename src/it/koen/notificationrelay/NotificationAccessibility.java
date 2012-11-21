@@ -41,6 +41,7 @@ public class NotificationAccessibility extends AccessibilityService
 	private boolean initialized;
 	private SharedPreferences settings;
 	private DefaultHttpClient httpclient;
+	private NotificationPackageManager nmp;
 
 	@Override
 	public void onAccessibilityEvent( AccessibilityEvent event )
@@ -62,6 +63,9 @@ public class NotificationAccessibility extends AccessibilityService
 			final String packagename = String.valueOf( event.getPackageName() );
 			final String text = getEventText( event );
 			final Notification n = (Notification) event.getParcelableData();
+			this.nmp.touch( packagename, getApplicationName( packagename ) );
+			if(this.nmp.isIgnored( packagename ))
+				return;
 
 			JSONObject json = buildJSON( packagename, text, n );
 			if( json == null )
@@ -112,8 +116,15 @@ public class NotificationAccessibility extends AccessibilityService
 			json = new JSONObject();
 			json.put( "package", packagename );
 			json.put( "application", getApplicationName( packagename ) );
-			json.put( "title", real.get( 0 ) );
-			json.put( "text", real.get( 1 ) );
+			if( real == null )
+			{
+				json.put( "title", getApplicationName( packagename ) );
+				json.put( "text", eventtext );
+			} else
+			{
+				json.put( "title", real.get( 0 ) );
+				json.put( "text", real.get( 1 ) );
+			}
 			json.put( "eventtext", eventtext );
 			if( notification.vibrate != null )
 			{
@@ -228,11 +239,13 @@ public class NotificationAccessibility extends AccessibilityService
 		this.settings = getSharedPreferences( PREF_CONTEXT, 0 );
 		final String url = settings.getString( PREF_SERVER_URL, null );
 		final String deviceid = settings.getString( PREF_DEVICEID, null );
-		Log.i("NM", "Settings: " + url + " " + deviceid);
+		Log.i( "NM", "Settings: " + url + " " + deviceid );
 
 		this.httpclient = new DefaultHttpClient();
 		this.httpclient.getParams().setParameter( CoreProtocolPNames.USER_AGENT, "NotiticationMaster/0.1 (Koen Bollen)" );
 
+		this.nmp = new NotificationPackageManager( this );
+		
 		this.initialized = true;
 		Log.i( "NM", "Notification Service Connected" );
 	}
